@@ -26,7 +26,7 @@ UPLOAD_FOLDER ='static/uploads/'
 DOWNLOAD_FOLDER = 'static/downloads/'
 ALLOWED_EXTENSIONS = {'jpg', 'png','.jpeg'}
 
-lineaccesstoken = ''
+lineaccesstoken = 'RYN+vxaIrXIRkVWPcWk5YpbCyQPCNBjShz8owHjlyuRP4MWgTuSDvqPXUUF/12aRVKUNm5m9kTeR1ARF29PsV9LP9POME0+iIh+aj5nm6iKXquqMaSLfnMcdTpRoopKt27xrEaTph4+6KI2ICYirmQdB04t89/1O/w1cDnyilFU='
 
 line_bot_api = LineBotApi(lineaccesstoken)
 
@@ -155,7 +155,13 @@ def event_handle(event,json_line):
         elif msg == "กินข้าวไหม":
             replyObj = TextSendMessage(text="ไม่ล่ะ กินแล้ว")
             line_bot_api.reply_message(rtoken,replyObj)
-        else :   
+            elif msg == "covid" :
+            url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
+            response = requests.get(url)
+            response = response.json()
+            replyObj = TextSendMessage(text=str(response))
+            line_bot_api.reply_message(rtoken, replyObj)
+        else : 
             headers = request.headers
             json_headers = ({k:v for k, v in headers.items()})
             json_headers.update({'Host':'bots.dialogflow.com'})
